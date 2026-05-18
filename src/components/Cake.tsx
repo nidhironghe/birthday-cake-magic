@@ -137,6 +137,28 @@ export default function Cake({ candlesLit, onBlow, cutCount, onCut, stage }: Cak
           <circle key={`blow-${i}`} cx={c.x} cy={c.y - 10} r={20} fill="transparent"
             className="cursor-pointer" onClick={() => onBlow(i)} />
         ))}
+
+        {/* Knife follows cursor */}
+        {stage === "cut" && knife && (
+          <g style={{ pointerEvents: "none" }} transform={`translate(${knife.x} ${knife.y}) rotate(-35)`}>
+            {/* Blade */}
+            <polygon points="0,0 6,-4 80,-6 82,0 80,6 6,4" fill="url(#blade)" stroke="#888" strokeWidth="0.5" />
+            <polygon points="0,0 6,-4 80,-6 82,0" fill="white" opacity="0.4" />
+            {/* Handle */}
+            <rect x="-40" y="-6" width="40" height="12" rx="3" fill="#3b2417" />
+            <rect x="-40" y="-6" width="40" height="3" fill="#5a3722" />
+            <circle cx="-32" cy="0" r="1.5" fill="#d4af37" />
+            <circle cx="-20" cy="0" r="1.5" fill="#d4af37" />
+            <circle cx="-8" cy="0" r="1.5" fill="#d4af37" />
+            <defs>
+              <linearGradient id="blade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#f5f5f5" />
+                <stop offset="0.5" stopColor="#d8d8d8" />
+                <stop offset="1" stopColor="#a8a8a8" />
+              </linearGradient>
+            </defs>
+          </g>
+        )}
       </svg>
     </div>
   );
