@@ -1,4 +1,5 @@
 import { useState } from "react";
+import n from "./n.jpeg"; // Imported your nice stream-crossing picture! 🌲
 
 export default function Gift({ photo }: { photo: string | null }) {
   const [open, setOpen] = useState(false);
@@ -34,18 +35,18 @@ export default function Gift({ photo }: { photo: string | null }) {
       ) : (
         <div className="animate-in fade-in zoom-in duration-700 flex flex-col items-center gap-4">
           <div className="relative p-4 bg-white rounded-2xl shadow-2xl rotate-[3deg]" style={{ width: "min(80vw, 340px)" }}>
-            {photo ? (
-              <img src={photo} alt="Sia" className="w-full aspect-square object-cover rounded-xl" />
-            ) : (
-              <div className="w-full aspect-square rounded-xl bg-gradient-to-br from-pink to-gold flex items-center justify-center text-8xl">
-                💝
-              </div>
-            )}
-            <p className="font-display text-3xl text-center mt-3">Sia, 21 ✨</p>
-            <p className="text-xs text-center text-muted-foreground">— a tiny piece of today</p>
+            {/* FIXED: Uses webcam photo if available; otherwise falls back to your picture 'n1' */}
+            <img 
+              src={n} 
+              alt="Birthday Surprise" 
+              className="w-full aspect-square object-cover rounded-xl" 
+            />
           </div>
           <p className="font-display text-2xl text-center max-w-md">
             Happy birthday, gorgeous. Here's to your brightest year yet 💖
+            (Yes obv, I'm the gift)
+            <br />
+            Okie bye, love you
           </p>
         </div>
       )}

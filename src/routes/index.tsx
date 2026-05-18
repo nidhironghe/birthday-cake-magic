@@ -97,7 +97,6 @@ function Index() {
         <h1 className="font-serif text-6xl md:text-8xl tracking-tight text-foreground">
           Sia <span className="text-primary">♡</span>
         </h1>
-        <p className="font-display text-2xl mt-2 text-muted-foreground">twenty-one looks so good on you</p>
       </header>
 
       {stage === "intro" && (
@@ -150,7 +149,7 @@ function Index() {
 
       {stage === "scrapbook" && (
         <section className="z-10 flex flex-col items-center gap-6 animate-in fade-in duration-500">
-          <p className="font-display text-3xl">a little scrapbook for you 📖</p>
+          <p className="font-display text-3xl">🫶🏻</p>
           <Scrapbook />
           <button onClick={() => setStage("gift")}
             className="px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold shadow-lg hover:scale-105 transition">
