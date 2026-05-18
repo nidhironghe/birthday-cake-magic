@@ -13,6 +13,18 @@ interface CakeProps {
 const SLICE_COUNT = 8;
 
 export default function Cake({ candlesLit, onBlow, cutCount, onCut, stage }: CakeProps) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [knife, setKnife] = useState<{ x: number; y: number } | null>(null);
+
+  const handleMove = (e: React.MouseEvent) => {
+    if (stage !== "cut" || !svgRef.current) return;
+    const pt = svgRef.current.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    const ctm = svgRef.current.getScreenCTM();
+    if (!ctm) return;
+    const loc = pt.matrixTransform(ctm.inverse());
+    setKnife({ x: loc.x, y: loc.y });
+  };
   const cx = 200;
   const cy = 220;
   const r = 130;
@@ -36,7 +48,13 @@ export default function Cake({ candlesLit, onBlow, cutCount, onCut, stage }: Cak
 
   return (
     <div className="relative flex flex-col items-center">
-      <svg viewBox="0 0 400 380" className="w-full max-w-md drop-shadow-2xl">
+      <svg
+        ref={svgRef}
+        viewBox="0 0 400 380"
+        className={`w-full max-w-md drop-shadow-2xl ${stage === "cut" ? "cursor-none" : ""}`}
+        onMouseMove={handleMove}
+        onMouseLeave={() => setKnife(null)}
+      >
         {/* Plate */}
         <ellipse cx={cx} cy={cy + 90} rx={170} ry={20} fill="oklch(0.88 0.04 25)" opacity="0.5" />
         <ellipse cx={cx} cy={cy + 85} rx={160} ry={18} fill="white" />
@@ -119,6 +137,28 @@ export default function Cake({ candlesLit, onBlow, cutCount, onCut, stage }: Cak
           <circle key={`blow-${i}`} cx={c.x} cy={c.y - 10} r={20} fill="transparent"
             className="cursor-pointer" onClick={() => onBlow(i)} />
         ))}
+
+        {/* Knife follows cursor */}
+        {stage === "cut" && knife && (
+          <g style={{ pointerEvents: "none" }} transform={`translate(${knife.x} ${knife.y}) rotate(-35)`}>
+            {/* Blade */}
+            <polygon points="0,0 6,-4 80,-6 82,0 80,6 6,4" fill="url(#blade)" stroke="#888" strokeWidth="0.5" />
+            <polygon points="0,0 6,-4 80,-6 82,0" fill="white" opacity="0.4" />
+            {/* Handle */}
+            <rect x="-40" y="-6" width="40" height="12" rx="3" fill="#3b2417" />
+            <rect x="-40" y="-6" width="40" height="3" fill="#5a3722" />
+            <circle cx="-32" cy="0" r="1.5" fill="#d4af37" />
+            <circle cx="-20" cy="0" r="1.5" fill="#d4af37" />
+            <circle cx="-8" cy="0" r="1.5" fill="#d4af37" />
+            <defs>
+              <linearGradient id="blade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#f5f5f5" />
+                <stop offset="0.5" stopColor="#d8d8d8" />
+                <stop offset="1" stopColor="#a8a8a8" />
+              </linearGradient>
+            </defs>
+          </g>
+        )}
       </svg>
     </div>
   );
