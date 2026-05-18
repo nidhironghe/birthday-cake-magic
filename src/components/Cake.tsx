@@ -13,6 +13,18 @@ interface CakeProps {
 const SLICE_COUNT = 8;
 
 export default function Cake({ candlesLit, onBlow, cutCount, onCut, stage }: CakeProps) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [knife, setKnife] = useState<{ x: number; y: number } | null>(null);
+
+  const handleMove = (e: React.MouseEvent) => {
+    if (stage !== "cut" || !svgRef.current) return;
+    const pt = svgRef.current.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    const ctm = svgRef.current.getScreenCTM();
+    if (!ctm) return;
+    const loc = pt.matrixTransform(ctm.inverse());
+    setKnife({ x: loc.x, y: loc.y });
+  };
   const cx = 200;
   const cy = 220;
   const r = 130;
@@ -36,7 +48,13 @@ export default function Cake({ candlesLit, onBlow, cutCount, onCut, stage }: Cak
 
   return (
     <div className="relative flex flex-col items-center">
-      <svg viewBox="0 0 400 380" className="w-full max-w-md drop-shadow-2xl">
+      <svg
+        ref={svgRef}
+        viewBox="0 0 400 380"
+        className={`w-full max-w-md drop-shadow-2xl ${stage === "cut" ? "cursor-none" : ""}`}
+        onMouseMove={handleMove}
+        onMouseLeave={() => setKnife(null)}
+      >
         {/* Plate */}
         <ellipse cx={cx} cy={cy + 90} rx={170} ry={20} fill="oklch(0.88 0.04 25)" opacity="0.5" />
         <ellipse cx={cx} cy={cy + 85} rx={160} ry={18} fill="white" />
