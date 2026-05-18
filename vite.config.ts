@@ -8,9 +8,11 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
   tanstackStart: {
+    // 👈 ADD THIS ENGINE OVERRIDE TO FORCE A STATIC SINGLE PAGE APP
+    appType: "spa", 
     server: { entry: "server" },
   },
   vite: {
-    base: "/birthday-cake-magic/", // 👈 THIS ENSURES GITHUB PAGES FINDS THE APP FILES
+    base: "/birthday-cake-magic/",
   }
 });

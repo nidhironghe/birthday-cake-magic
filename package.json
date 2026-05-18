@@ -3,7 +3,9 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "scripts": {
+"scripts": {
+    "predeploy": "vite build",
+    "deploy": "gh-pages -d dist/client",
     "dev": "vite dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
