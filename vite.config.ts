@@ -12,4 +12,9 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  vite: {
+    // We explicitly leave this empty or pass custom configurations here.
+    // Removing the base path completely forces Vite to build relative to the root URL, 
+    // which fixes Vercel's 404 error!
+  }
 });
