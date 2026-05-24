@@ -4,8 +4,9 @@ import Cake from "@/components/Cake";
 import WebcamSnap from "@/components/WebcamSnap";
 import Scrapbook from "@/components/Scrapbook";
 import Gift from "@/components/Gift";
+import VogueCover from "@/components/VogueCover";
 
-type Stage = "intro" | "blow" | "cut" | "snap" | "scrapbook" | "gift";
+type Stage = "intro" | "blow" | "cut" | "snap" | "scrapbook" | "gift" | "vogue";
 
 const TOTAL_SLICES = 8;
 
@@ -155,7 +156,13 @@ export default function App() {
       {stage === "gift" && (
         <section className="z-10 flex flex-col items-center gap-4 animate-in fade-in duration-500">
           <p className="font-display text-3xl">a gift for you 🎁</p>
-          <Gift photo={photo} />
+          <Gift photo={photo} onNext={() => setStage("vogue")} />
+        </section>
+      )}
+
+      {stage === "vogue" && (
+        <section className="z-10 flex flex-col items-center gap-4 animate-in fade-in duration-500">
+          <VogueCover />
         </section>
       )}
 

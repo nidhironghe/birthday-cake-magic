@@ -1,7 +1,7 @@
 import { useState } from "react";
-import n from "./n.jpeg"; // Imported your nice stream-crossing picture! 🌲
+import n from "./n.jpeg";
 
-export default function Gift({ photo }: { photo: string | null }) {
+export default function Gift({ photo, onNext }: { photo: string | null; onNext: () => void }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -35,11 +35,10 @@ export default function Gift({ photo }: { photo: string | null }) {
       ) : (
         <div className="animate-in fade-in zoom-in duration-700 flex flex-col items-center gap-4">
           <div className="relative p-4 bg-white rounded-2xl shadow-2xl rotate-[3deg]" style={{ width: "min(80vw, 340px)" }}>
-            {/* FIXED: Uses webcam photo if available; otherwise falls back to your picture 'n1' */}
-            <img 
-              src={n} 
-              alt="Birthday Surprise" 
-              className="w-full aspect-square object-cover rounded-xl" 
+            <img
+              src={n}
+              alt="Birthday Surprise"
+              className="w-full aspect-square object-cover rounded-xl"
             />
           </div>
           <p className="font-display text-2xl text-center max-w-md">
@@ -48,6 +47,12 @@ export default function Gift({ photo }: { photo: string | null }) {
             <br />
             Okie bye, love you
           </p>
+          <button
+            onClick={onNext}
+            className="px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold shadow-lg hover:scale-105 transition"
+          >
+            one more thing ✨
+          </button>
         </div>
       )}
     </div>
