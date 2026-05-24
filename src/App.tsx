@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import Cake from "@/components/Cake";
@@ -6,19 +5,16 @@ import WebcamSnap from "@/components/WebcamSnap";
 import Scrapbook from "@/components/Scrapbook";
 import Gift from "@/components/Gift";
 
-export const Route = createFileRoute("/")({ component: Index });
-
 type Stage = "intro" | "blow" | "cut" | "snap" | "scrapbook" | "gift";
 
 const TOTAL_SLICES = 8;
 
-function Index() {
+export default function App() {
   const [stage, setStage] = useState<Stage>("intro");
   const [candles, setCandles] = useState<boolean[]>([true, true, true, true, true]);
   const [cuts, setCuts] = useState(0);
   const [photo, setPhoto] = useState<string | null>(null);
 
-  // mic blow detection
   const micRef = useRef<{ ctx: AudioContext; stream: MediaStream; raf: number } | null>(null);
 
   useEffect(() => {
@@ -36,7 +32,6 @@ function Index() {
         const data = new Uint8Array(analyser.frequencyBinCount);
         const loop = () => {
           analyser.getByteFrequencyData(data);
-          // focus on lower-mid for breath
           let sum = 0;
           for (let i = 4; i < 40; i++) sum += data[i];
           const avg = sum / 36;
@@ -89,7 +84,6 @@ function Index() {
 
   return (
     <main className="min-h-screen w-full px-4 py-10 flex flex-col items-center">
-      {/* Floating hearts decor */}
       <FloatingDecor />
 
       <header className="text-center mb-8 z-10">
